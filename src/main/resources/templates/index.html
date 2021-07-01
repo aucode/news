@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻首页</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div class="page_body">
+        <div class="main_nav">
+            <div class="nav_wrapper">
+                <div class="nav_list">
+                    <div class="navli first">
+                        <span class="nav_tit">
+                            <a href="/" target="">新闻首页</a>
+                        </span>
+                    </div>
+                    <div class="navli" th:each="item,count : ${columnType}" th:if="${count.count } <='8'">
+                        <span class="nav_tit" >
+                            <a href="javascript:void(0);" target="" th:text="${item.content}">新闻</a>
+                            <ul class="nav_menu">
+                                <li th:each="menu : ${item.list}">
+                                    <a th:href="'/type?content='+${menu.classcontent}+'&id='+ ${menu.id}"
+                                       th:text="${menu.classcontent}" style="display: inline-block;width: 100%;"></a>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                    <div class="navli search">
+                        <form action="/index.search" method="get">
+                            <input type="text" name="search" placeholder="文章搜索..."/>
+                        </form>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div style="width: 1200px;margin: 0 auto;margin-top: 20px;background: #FFFFFF;position: relative;">
+            <div class="left">
+                <div class="cloumn"  th:each="item,count : ${typenews}">
+                    <div class="title">
+                        <strong th:text="${item.content}">----</strong>
+                        <a th:each="item1,count : ${item.list}"
+                           th:href="'/type?content='+${item1.classcontent}+'&id='+ ${item1.id}" th:text="${item1.classcontent}">科技</a>
+                        <span></span>
+                    </div>
+                    <div class="con">
+                        <ul class="newslist">
+                            <li style="display: list-item;" th:each="listnewsitem,count : ${item.listnews}"
+                                th:if="${listnewsitem.state} eq '0' and ${count.count} <= 6" >
+                                <div class="image" >
+                                    <a target="_blank" th:href="'/browse?id='+ ${listnewsitem.newsid}">
+                                        <img class="lazy"
+                                             th:src="${listnewsitem.top}" >
+                                        <span class="bg"></span>
+                                    </a>
+                                </div>
+                                <div class="text_con">
+                                    <h3 class="titlekapain">
+                                        <a th:text="${listnewsitem.headtitle}" target="_blank"
+                                           th:href="'/browse?id='+ ${listnewsitem.newsid}">
+                                            --------------------------------------------------
+                                        </a>
+                                    </h3>
+                                    <div class="bottom">
+                                        <span class="date" th:text="${listnewsitem.newstime}">2021-06-29</span>
+                                        <div class="share"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="right right-hot" th:if="${newstop} ne ''">
+                <div class="hot">
+                    <div class="hottitle">
+                        热门文章
+                    </div>
+                    <div class="hotcontent">
+                        <ul>
+                            <li th:each="item,count : ${newstop.records}" th:if="${item.state} eq '0'">
+                                <a th:href="'/browse?id='+ ${item.newsid}">
+                                    <span th:text="${count.count }">1</span>
+
+                                    [[${item.headtitle}]]
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="column_wrapper">
+            <div class="column_main">
+                <div class="top">
+                    <div class="data">
+                        <span class="date_time" id="date_time">2021年06月18日</span>
+                        <span class="weather" id="time">多云 35℃/27℃</span>
+                        <span class="weather_search">
+                            <a href="#" onclick="alert('功能未开放！');">天气查询&gt;</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="con">
+                    <div class="nav_daohang" >
+                        <a class="new" href="/">
+                            新闻首页
+                        </a>
+                        <a class="i" href="javascript:void(0);">&gt;</a>
+                        <a href="javascript:void(0);"
+                           th:text="${columnclass}">
+                            ------
+                        </a>
+                    </div>
+                    <ul class="news_list">
+                        <li th:each="item,count : ${newslist.records}" th:if="${item.state} eq '0'">
+                            <div class="image">
+                                <a target="_blank" th:href="'/browse?id='+ ${item.newsid}">
+                                    <img class="lazy"
+                                         th:src="${item.top}">
+                                </a>
+                            </div>
+                            <div class="text_con">
+                                <h3 class="title">
+                                    <a target="_blank" th:href="'/browse?id='+ ${item.newsid}" th:text="${item.headtitle}">
+                                        ----------------------------
+                                    </a>
+                                </h3>
+                                <p class="brief" >
+                                    <a target="_blank" th:href="'/browse?id='+ ${item.newsid}" th:text="${item.content}">
+                                        -------------------------------------------------------------------------------------
+                                    </a>
+                                </p>
+                                <div class="bottom">
+                                    <span class="date" th:text="${item.newstime}">2021-06-18</span>
+                                    <span class="keyword">
+                                        <a href="javascript:0;" onclick="alert('功能未开放！');" th:text="${item.author}">西昌
+                                        </a>
+                                    </span>
+                                    <div class="share">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="more" th:if="${more}">
+                    <a th:href="'/page?pageNum='+${pageMun}">点击加载更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+<script>
+    window.onload = function(){
+        setInterval(function () {
+            let date = new Date();
+            document.querySelector("#date_time").textContent =
+                date.getFullYear()+"年"+ (date.getMonth() + 1)+"月"+date.getDate()+"日";
+            document.querySelector("#time").textContent = date.getHours()+" : "+date.getMinutes()+" : "+date.getSeconds();
+
+        },1000)
+
+    }
+</script>
+</html>

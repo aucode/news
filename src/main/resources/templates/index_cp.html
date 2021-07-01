@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻首页</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div class="page_body">
+        <div class="main_nav">
+            <div class="nav_wrapper">
+                <div class="nav_list">
+                    <div class="navli first">
+                        <span class="nav_tit">
+                            <a href="/" target="">新闻首页</a>
+                        </span>
+                    </div>
+                    <div class="navli" th:each="item,count : ${columnType}">
+                        <span class="nav_tit">
+                            <a href="javascript:void(0);" target="" th:text="${item.content}">新闻</a>
+                            <ul class="nav_menu">
+                                <li th:each="menu : ${item.list}">
+                                    <a th:href="'/type?content='+${menu.classcontent}+'&id='+ ${menu.id}"
+                                       th:text="${menu.classcontent}" style="display: inline-block;width: 100%;"></a>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="column_wrapper">
+            <div class="column_main">
+                <div class="top">
+                    <div class="data">
+                        <span class="date_time" id="date_time">2021年06月18日</span>
+                        <span class="weather" id="time">多云 35℃/27℃</span>
+                        <span class="weather_search">
+                            <a href="#" onclick="alert('功能未开放！');">天气查询&gt;</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="con">
+                    <div class="nav_daohang" >
+                        <a class="new" href="/">
+                            新闻首页
+                        </a>
+                        <a class="i" href="javascript:void(0);">&gt;</a>
+                        <a href="javascript:void(0);"
+                           th:text="${columnclass}">
+                            中国新闻
+                        </a>
+                    </div>
+                    <ul class="news_list">
+                        <li th:each="item,count : ${newslist.records}" th:if="${item.state} eq '0'">
+                            <div class="image">
+                                <a target="_blank" th:href="'/browse?id='+ ${item.newsid}">
+                                    <img class="lazy"
+                                         th:src="${item.top}">
+                                </a>
+                            </div>
+                            <div class="text_con">
+                                <h3 class="title">
+                                    <a target="_blank" th:href="'/browse?id='+ ${item.newsid}" th:text="${item.headtitle}">
+                                        我国成功发射遥感三十号09组卫星
+                                    </a>
+                                </h3>
+                                <p class="brief" >
+                                    <a target="_blank" th:href="'/browse?id='+ ${item.newsid}" th:text="${item.content}">
+                                        6月18日14时30分，我国在西昌卫星发射中心用长征二号丙运载火箭，成功将遥感三十号09组卫星发射升空，卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道卫星进入预定轨道。
+                                    </a>
+                                </p>
+                                <div class="bottom">
+                                    <span class="date" th:text="${item.newstime}">2021-06-18</span>
+                                    <span class="keyword">
+                                        <a href="javascript:0;" onclick="alert('功能未开放！');" th:text="${item.author}">西昌
+                                        </a>
+                                    </span>
+                                    <div class="share">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="more" th:if="${more}">
+                    <a th:href="'/page?pageNum='+${pageMun}">点击加载更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+<script>
+    window.onload = function(){
+        setInterval(function () {
+            let date = new Date();
+            document.querySelector("#date_time").textContent =
+                date.getFullYear()+"年"+ (date.getMonth() + 1)+"月"+date.getDate()+"日";
+            document.querySelector("#time").textContent = date.getHours()+" : "+date.getMinutes()+" : "+date.getSeconds();
+
+        },1000)
+
+    }
+</script>
+</html>

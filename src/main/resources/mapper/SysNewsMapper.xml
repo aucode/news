@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aucode.news.mapper.SysNewsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aucode.news.entity.SysNews">
+        <id column="newsid" property="newsid" />
+        <result column="columnid" property="columnid" />
+        <result column="classid" property="classid" />
+        <result column="headtitle" property="headtitle" />
+        <result column="content" property="content" />
+        <result column="author" property="author" />
+        <result column="newstime" property="newstime" />
+        <result column="clickscount" property="clickscount" />
+        <result column="top" property="top" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        newsid, columnid, classid, headtitle, content, author, newstime, clickscount, top, state
+    </sql>
+    <update id="updateClicksCount" parameterType="java.lang.Integer">
+        update sys_news set clickscount = clickscount + 1 where newsid = #{value}
+    </update>
+
+</mapper>

@@ -1,0 +1,230 @@
+<!-- 
+    http://v.bootstrapmb.com/2021/6/dcxpt10282/light/
+ -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin_index.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/api.js"></script>
+</head>
+<body>
+    <div class="body">
+        <nav class="head-nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <span class="glyphicon glyphicon-align-left" onclick="api.homeView();"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;后台首页
+                </div>
+                <div class="nav-center">
+                    <h3 style="height: 50px;line-height: 50px;font-size: 22px;font-weight: bold;color: #FFFFFF;margin: 0;padding: 0;">
+                        新闻发布系统
+                    </h3>
+                </div>
+                <div class="nav-right">
+                </div>
+            </div>
+        </nav>
+        <div class="left-nav">
+            <div class="nav-u">
+                <span class="glyphicon glyphicon-user"></span>
+                <span th:text="${user}"></span>
+                <a href="/admin/sign.out">
+                    <span class="glyphicon glyphicon-share exit-system" title="退出"></span>
+                </a>
+            </div>
+            <nav class="nav-item">
+                <ul class="nav-container">
+                    <li>
+                        <a href="/admin.toindex" class="activity">
+                            <span class="glyphicon glyphicon-home"></span>
+                            <span>启动页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin.column">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span>栏目类型管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin.tonews">
+                            <span class="glyphicon glyphicon-book"></span>
+                            <span>文章管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin.user" th:if="${level} == '1'">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span>用户管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main">
+            <div class="main-card card ">
+                <div class="row">
+                    <a href="/admin.toindex" class="col-lg-3 col-md-6 col-sm-6" style="padding: 0 100px;border-right: 1px #feb800 solid;">
+                        <div class="card-container">
+                            <div class="card-left">
+                                <span class="glyphicon glyphicon-road"></span>
+                                <span>TOP</span>
+                            </div>
+                            <div class="card-right">
+                                
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/admin.column" class="col-lg-3 col-md-6 col-sm-6" style="padding: 0 90px;border-right:
+                    1px #feb800 solid;">
+                        <div class="card-container">
+                            <div class="card-left">
+                                <span class="glyphicon glyphicon-book"></span>
+                                <span class="ti">栏目</span>
+                            </div>
+                            <div class="card-right">
+
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/admin.user" class="col-lg-3 col-md-6 col-sm-6" style="padding: 0 50px;border-right: 1px
+                     #feb800 solid;">
+                        <div class="card-container">
+                            <div class="card-left">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="ti">用户管理</span>
+                            </div>
+                            <div class="card-right">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/admin.tonews" class="col-lg-3 col-md-6 col-sm-6" style="padding: 0 50px;border-right:
+                    none;">
+                        <div class="card-container">
+                            <div class="card-left">
+                                <span class="glyphicon glyphicon-file"></span>
+                                <span class="ti">文章管理</span>
+                            </div>
+                            <div class="card-right">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 20px;">
+                <div class="card card-list">
+                    <div class="header">
+                        <h2>热门文章TOP</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table style="table-layout:fixed" class="table table-hover js-basic-example dataTable table-custom mb-0">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>标题</th>
+                                        <th>作者</th>
+                                        <th>发布时间</th>
+                                        <th>浏览次数</th>
+                                        <th style="text-align: center;">操作 | 状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody">
+                                    <tr  th:each="item,count : ${newstop.records}">
+                                        <th th:text="${count.count }">1</th>
+                                        <th th:text="${item.headtitle}">标题</th>
+
+                                        <th th:text="${item.author}" class="" style="word-break: break-all;word-wrap: break-word;white-space:
+                                        inherit;">
+                                            作者
+                                        </th>
+                                        <th th:text="${item.newstime}">发布时间</th>
+                                        <th th:text="${item.clickscount}">发布时间</th>
+                                        <th>
+                                            <div class="btn-group" role="group">
+                                                <a type="button" data-toggle="modal" class="btn btn-primary"
+                                                   th:data-target="'#myModal'+${count.count}">查看
+                                                </a>
+                                                <div class="modal fade" th:id="'myModal'+${count.count }" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document" style="width: 90%;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true" style="font-size: 20px;">×
+                                                                    </span>
+                                                                </button>
+                                                                <h4 class="modal-title" id="myModalLabel">文章浏览</h4>
+                                                            </div>
+                                                            <form action="/newscolumn/update" method="post">
+                                                                <div class="modal-body form-group"
+                                                                     th:utext="${item.content}" style="text-align:
+                                                                     left;width: 80%;margin: 0 auto;">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                            data-dismiss="modal">关闭</button>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" th:if="${item.state} == '0'"
+                                                        class="btn btn-warning" data-toggle="modal" th:data-target="'#Modal'+${count.count}" >展示</button>
+                                                <button type="button" th:if="${item.state} == '1'"
+                                                        class="btn btn-danger" data-toggle="modal" th:data-target="'#Modal'+${count.count}" >隐藏</button>
+
+                                                <div class="modal fade" th:id="'Modal'+${count.count }" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document" style="width: 30%;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true" style="font-size: 20px;">×
+                                                                    </span>
+                                                                </button>
+                                                                <h4 class="modal-title" id="myModalLabel">修改文章</h4>
+                                                            </div>
+                                                            <form action="/news/update.topstate" method="post">
+                                                                <div class="modal-body form-group">
+                                                                    <input type="hidden" name="newsid" class="form-control"
+                                                                           th:value="${item.newsid}">
+                                                                    <input type="hidden" name="state" class="form-control"
+                                                                           th:value="${item.state}">
+                                                                    <h4 style="font-size: 16px;">确定修改该状态,当前为 <font style="font-size: 16px;color:#006777;font-weight: bold" th:text="${item.state} eq '1' ? '隐藏':'展示'"></font></h4>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                            data-dismiss="modal">取消</button>
+                                                                    <button type="submit" class="btn btn-primary">保存
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script th:inline="javascript" type="text/javascript">
+    let msg = [[${msg}]];
+    api.tips(msg,"/admin.toindex");
+</script>
+</html>

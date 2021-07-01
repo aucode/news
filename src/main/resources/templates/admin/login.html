@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+    <div class="bj"></div>
+    <div class="t1"></div>
+    <div class="t2"></div>
+    <div class="t3"></div>
+    <div class="t4"></div>
+    <div class="t5"></div>
+    <div class="login-main">
+        <div class="login-form">
+            <form action="/admin/login" method="post">
+                <span  th:text="${message}">输入提示信息</span>
+                <h1>管理员登录</h1>
+                <input type="text" name="adminName" placeholder="用户名" required/>
+                <input type="password" name="adminPassword" placeholder="密码" required/>
+                <input class="submit" type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

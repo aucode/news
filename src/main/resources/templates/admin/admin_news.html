@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin_index.css">
+    <link rel="stylesheet" href="/css/admin_type.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/css/admin_book.css">
+    <link href="/dist/summernote.css" rel="stylesheet">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-select.min.js"></script>
+    <script src="/dist/summernote.js"></script>
+    <script src="/dist/lang/summernote-zh-CN.js"></script>
+    <script src="/js/api.js"></script>
+</head>
+<body>
+    <div class="body">
+        <nav class="head-nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <span class="glyphicon glyphicon-align-left" onclick="api.homeView();"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;新闻管理页
+                </div>
+                <div class="nav-center">
+                    <h3 style="height: 50px;line-height: 50px;font-size: 22px;font-weight: bold;color: #FFFFFF;margin: 0;padding: 0;">
+                        <form action="/news/news.search" method="post">
+                            <input type="text" name="search" placeholder="搜索..." style="text-align: left;">
+
+                        </form>
+                    </h3>
+                </div>
+                <div class="nav-right">
+                </div>
+            </div>
+        </nav>
+        <div class="left-nav">
+            <div class="nav-u">
+                <span class="glyphicon glyphicon-user"></span>
+                <span th:text="${user}"></span>
+                <a href="/admin/sign.out">
+                    <span class="glyphicon glyphicon-share exit-system" title="退出"></span>
+                </a>
+            </div>
+            <nav class="nav-item">
+                <ul class="nav-container">
+                    <li>
+                        <a href="/admin.toindex">
+                            <span class="glyphicon glyphicon-home"></span>
+                            <span>启动页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin.column">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span>栏目类型管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin.tonews" class="activity">
+                            <span class="glyphicon glyphicon-book"></span>
+                            <span>文章管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin.user" th:if="${level} == '1'">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span>用户管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main">
+            <div class="main-card card ">
+                <div class="from" th:if="${page} != '-1'">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <form action="/news/addnews" method="post"
+                                      class="form-inline row"
+                                      id="add">
+                                    <div class="row">
+                                        <h2 class="col-md-6">
+
+                                            <small>
+                                                <label>标题：</label>
+                                                <input type="text" name="headtitle" class="form-control" style="width: calc(100% -
+                                                150px);" placeholder="请输入文章标题" required>
+                                            </small>
+                                        </h2>
+                                        <h2 class="form-group col-md-6">
+                                            <small>
+                                                <label>作者：</label>
+                                                <input type="text" name="author" class="form-control" style="width: calc(100% -
+                                                150px);" placeholder="请输入文章作者" required>
+                                            </small>
+                                        </h2>
+                                    </div>
+                                    <div class="row">
+                                        <h2 class="form-group col-md-6">
+                                            <small>
+                                                <label>栏目：</label>
+                                                <select class="selectpicker" name="columnid" id="column"
+                                                        onchange="init_area()"
+                                                        data-live-search="true"
+                                                        required>
+                                                    <option value="">请选择栏目</option>
+                                                    <option th:each="item : ${column}"
+                                                            th:value="${item.columnid}" th:text="${item.content}" >
+                                                    </option>
+                                                </select>
+                                            </small>
+                                        </h2>
+                                        <h2 class="form-group col-md-6">
+                                            <small>
+                                                <label>类型：</label>
+                                                <select class="selectpicker" id="columnclass" name="classid"
+                                                        data-live-search="true"
+                                                        required>
+                                                    <option value="">请选择类型</option>
+                                                </select>
+                                            </small>
+                                        </h2>
+                                    </div>
+                                    <div class="form-group col-md-12" style="width: calc(100% - 80px);">
+                                        <label>文章</label>
+                                        <textarea name="content" id="addnews" class="summernote form-control"
+                                                  placeholder="请输编辑文章"  required></textarea>
+                                        <span style="font-size: 10px;color:red;"> * 发布后不可修改</span><br>
+                                        <button type="submit" class="btn btn-primary"
+                                                style="width: calc(100%);">发布文章</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card card-list">
+                    <div class="header">
+                        <h2 style="margin: 10px 0 0 0;">新闻列表</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table style="table-layout:fixed" class="table-responsive table table-hover js-basic-example dataTable table-custom mb-0">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>标题</th>
+                                        <th>作者</th>
+                                        <th>发布时间</th>
+                                        <th class="align-center">操作 |  状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody">
+                                    <tr th:each="item,count : ${newspage.records}">
+                                        <th th:text="${count.count }">1</th>
+                                        <th th:text="${item.headtitle}">标题</th>
+                                        <th th:text="${item.author}" class="" style="word-break: break-all;word-wrap: break-word;white-space:
+                                        inherit;">
+                                            作者
+                                        </th>
+                                        <th th:text="${item.newstime}">发布时间</th>
+                                        <th class="align-center">
+                                            <div class="btn-group" role="group">
+                                                <a type="button" data-toggle="modal" class="btn btn-primary"
+                                                   th:data-target="'#myModal'+${count.count}">查看
+                                                </a>
+                                                <div class="modal fade" th:id="'myModal'+${count.count }" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document" style="width: 90%;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true" style="font-size: 20px;">×
+                                                                    </span>
+                                                                </button>
+                                                                <h4 class="modal-title" id="myModalLabel">文章浏览</h4>
+                                                            </div>
+                                                            <form action="/newscolumn/update" method="post">
+                                                                <div class="modal-body form-group"
+                                                                     th:utext="${item.content}" style="text-align:
+                                                                     left;width: 80%;margin: 0 auto;">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                            data-dismiss="modal">关闭</button>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" th:if="${item.state} eq '0'"
+                                                        class="btn btn-warning" data-toggle="modal" th:data-target="'#Modal'+${count.count}" >展示</button>
+                                                <button type="button" th:if="${item.state} eq '1'"
+                                                        class="btn btn-danger" data-toggle="modal" th:data-target="'#Modal'+${count.count}" >隐藏</button>
+
+                                                <div class="modal fade" th:id="'Modal'+${count.count }" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document" style="width: 30%;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true" style="font-size: 20px;">×
+                                                                    </span>
+                                                                </button>
+                                                                <h4 class="modal-title" id="myModalLabel">修改文章</h4>
+                                                            </div>
+                                                            <form action="/news/update.state" method="post">
+                                                                <div class="modal-body form-group">
+                                                                    <input type="hidden" name="newsid" class="form-control"
+                                                                           th:value="${item.newsid}">
+                                                                    <input type="hidden" name="state" class="form-control"
+                                                                           th:value="${item.state}">
+                                                                    <h4 style="font-size: 16px;">确定修改该状态,当前为 <font style="font-size: 16px;color:#006777;font-weight: bold" th:text="${item.state} eq '1' ? '隐藏':'展示'"></font></h4>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                            data-dismiss="modal">取消</button>
+                                                                    <button type="submit" class="btn btn-primary">保存
+                                                                    </button>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <nav aria-label="Page navigation" style="text-align: center;" th:if="${page} != '-1'">
+                                <ul class="pagination" >
+                                    <li th:each="index:${#numbers.sequence(1,page)}"
+                                        class=""th:classappend="${index == newspage.current} ? 'active' : '' ">
+                                        <a th:href="'/news.page?pageNum='+ ${index}" th:text="${index}">1</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script th:inline="javascript" type="text/javascript">
+    let classDate = [[${class}]];
+    let msg = [[${msg}]];
+    api.tips(msg,"/admin.tonews");
+    $(function(){
+        $('.summernote').summernote({
+            height: 300,
+            tabsize: 4,
+            lang: 'zh-CN'
+        });
+    });
+
+    function init_area() {
+        let column = $("#column");
+        let column_value = column.val();
+        let columnclass = $("#columnclass");
+        api.initarea(column,column_value,columnclass,classDate);
+    }
+
+
+</script>
+<script>
+    $("#column").selectpicker("render");
+    $("#columnclass").selectpicker("render");
+</script>
+</html>

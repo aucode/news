@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aucode.news.mapper.SysNewscolumnMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aucode.news.entity.SysNewscolumn">
+        <id column="columnid" property="columnid" />
+        <result column="content" property="content" />
+    </resultMap>
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ColumnMap" type="com.aucode.news.entity.SysNewsColumnClass">
+        <id column="columnid" property="columnid" />
+        <result column="content" property="content" />
+        <collection property="list"
+                    ofType="com.aucode.news.entity.SysNewclassList">
+            <id property="id" column="id"/>
+            <id property="classid" column="classid"/>
+            <id property="classcontent" column="classcontent"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ColumnNewsMap" type="com.aucode.news.entity.SysNewsColumnClass">
+        <id column="columnid" property="columnid" />
+        <result column="content" property="content" />
+        <collection property="list"
+                    ofType="com.aucode.news.entity.SysNewclassArrayList">
+            <id property="id" column="id"/>
+            <id property="classid" column="classid"/>
+            <id property="classcontent" column="classcontent"/>
+
+        </collection>
+
+        <collection property="listnews"
+                    ofType="com.aucode.news.entity.SysNewsList">
+            <id column="newsid" property="newsid" />
+            <result column="newscolumnid" property="newscolumnid" />
+            <result column="newsclassid" property="newsclassid" />
+            <result column="headtitle" property="headtitle" />
+            <result column="newscontent" property="newscontent" />
+            <result column="author" property="author" />
+            <result column="newstime" property="newstime" />
+            <result column="clickscount" property="clickscount" />
+            <result column="top" property="top" />
+            <result column="state" property="state" />
+        </collection>
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        columnid, content
+    </sql>
+
+    <select id="getType" resultMap="ColumnMap">
+        SELECT newscolumn.*,newsclass.id,newsclass.columnid classid,newsclass.content classcontent
+        FROM sys_newscolumn newscolumn LEFT JOIN
+        sys_newclass newsclass on
+        newscolumn.columnid = newsclass.columnid
+    </select>
+
+    <select id="gethomelist" resultMap="ColumnNewsMap">
+                SELECT news.state,news.newstime,news.author,news.headtitle,news.newsid,news.columnid
+                newscolumnid,news.classid newsclassid,news.content newscontent,newscolumn.*,newsclass.id,newsclass.columnid classid,newsclass.content classcontent
+        FROM (select * from sys_newscolumn limit 0,2) newscolumn LEFT JOIN
+        sys_newclass newsclass on newscolumn.columnid = newsclass.columnid
+				LEFT JOIN
+        sys_news news on
+        newscolumn.columnid = news.columnid
+    </select>
+
+</mapper>

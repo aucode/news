@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章浏览</title>
+    <link rel="stylesheet" href="/css/browse.css">
+</head>
+<body>
+    
+<!--    <div class="main_nav">-->
+<!--        <div class="nav_wrapper">-->
+<!--            <div class="nav_list">-->
+<!--                <div class="navli first cur">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="index.html" target="">新闻</a>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                <div class="navli">-->
+<!--                    <span class="nav_tit">-->
+<!--                        <a href="" target="">新闻</a>-->
+<!--                        <ul class="nav_menu">-->
+<!--                            <li>三级菜单</li>-->
+<!--                            <li>三级菜单二</li>-->
+<!--                        </ul>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="clear"></div>-->
+<!--            </div>-->
+<!--            <div class="clear"></div>-->
+<!--        </div>-->
+<!--        <div class="clear"></div>-->
+<!--    </div>-->
+    <div class="main_nav">
+        <div class="nav_wrapper">
+            <div class="nav_list">
+                <div class="navli first">
+                        <span class="nav_tit">
+                            <a href="/" target="">新闻首页</a>
+                        </span>
+                </div>
+                <div class="navli" th:each="item,count : ${columnType}">
+                        <span class="nav_tit">
+                            <a href="javascript:void(0);" target="" th:text="${item.content}">新闻</a>
+                            <ul class="nav_menu">
+                                <li th:each="menu : ${item.list}">
+                                    <a th:href="'/type?content='+${menu.classcontent}+'&id='+ ${menu.id}"
+                                       th:text="${menu.classcontent}" style="display: inline-block;width: 100%;"></a>
+                                </li>
+                            </ul>
+                        </span>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="main" th:utext="${news.content}">
+
+    </div>
+</body>
+</html>
